@@ -8,6 +8,14 @@ class Primes {
 private:
     bool is_limited;
     std::vector<uint32_t> prime_numbers;
+
+    void extend_prime_numbers();
+
+protected:
+    const uint32_t extension_step = 1000000;
+
+    void extend_prime_numbers(uint32_t max);
+
 public:
     Primes(uint32_t max);
 
