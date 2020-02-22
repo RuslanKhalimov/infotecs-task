@@ -26,7 +26,7 @@ TEST(Primes, limited_container_values) {
 
 TEST(Primes, index_out_of_range) {
     Primes container(10);
-    EXPECT_THROW(container[4], std::runtime_error);
+    EXPECT_THROW(container[4], std::out_of_range);
 }
 
 TEST(Primes, unlimited_container_get_by_index) {

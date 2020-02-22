@@ -41,9 +41,9 @@ public:
 
     Iterator &operator++();
 
-    const Iterator operator++(int);
+    Iterator operator++(int);
 
-    uint32_t &operator*();
+    uint32_t &operator*() const;
 
     bool operator==(const Iterator &other) const;
 

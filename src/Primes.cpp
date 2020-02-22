@@ -1,12 +1,10 @@
 #include "Primes.h"
 
-Primes::Primes(uint32_t max) {
-    is_limited = true;
+Primes::Primes(uint32_t max) : is_limited(true) {
     extend_prime_numbers(max);
 }
 
-Primes::Primes() {
-    is_limited = false;
+Primes::Primes() : is_limited(false) {
 }
 
 Primes::Iterator Primes::begin() {
@@ -26,7 +24,7 @@ uint32_t Primes::operator[](uint32_t index) {
         extend_prime_numbers();
     }
     if (index >= prime_numbers.size()) {
-        throw std::runtime_error("Index out of range : " + std::to_string(index));
+        throw std::out_of_range("Index out of range : " + std::to_string(index));
     }
     return prime_numbers[index];
 }
@@ -65,10 +63,11 @@ void Primes::extend_prime_numbers(uint32_t max) {
 
 /* ---- Iterator ---- */
 
-Primes::Iterator::Iterator(Primes *container, std::vector<uint32_t>::iterator iter) : container(container),
-                                                                                      iter(iter) {}
+Primes::Iterator::Iterator(Primes *container, std::vector<uint32_t>::iterator iter) :
+        container(container),
+        iter(iter) {}
 
-const Primes::Iterator Primes::Iterator::operator++(int) {
+Primes::Iterator Primes::Iterator::operator++(int) {
     while (!container->is_limited && iter == container->prime_numbers.end()) {
         container->extend_prime_numbers();
     }
@@ -83,7 +82,7 @@ Primes::Iterator &Primes::Iterator::operator++() {
     return *this;
 }
 
-uint32_t &Primes::Iterator::operator*() {
+uint32_t &Primes::Iterator::operator*() const {
     return *iter;
 }
 
