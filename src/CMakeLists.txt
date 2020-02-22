@@ -1,3 +1,3 @@
 add_executable(main
         Primes.cpp
-        main.cpp)
+        main.cpp ArgumentsParser.h)
