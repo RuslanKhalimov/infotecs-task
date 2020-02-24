@@ -12,10 +12,10 @@ void print(const std::vector<uint32_t> &result, std::string delimiter) {
 
 void show_usage() {
     std::cout << "Usage:" << std::endl
-                 << "    -h | --help\n"
-                 << "    -m | --mode       max <max_number> | count <numbers_count>" << std::endl
-                 << "    -f | --file       <output_file_name>" << std::endl
-                 << "    -t | --type       <prime_numbers_type>" << std::endl
+              << "    -h | --help\n"
+              << "    -m | --mode       max <max_number> | count <numbers_count>" << std::endl
+              << "    -f | --file       <output_file_name>" << std::endl
+              << "    -t | --type       <prime_numbers_type>" << std::endl
               << "Available prime_numbers_types : prime, super-prime, sophie-germain-prime" << std::endl;
 }
 

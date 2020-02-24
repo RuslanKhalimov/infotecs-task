@@ -2,7 +2,7 @@ enable_testing()
 
 include_directories(../src)
 
-add_executable(primes_tests Primes_test.cpp ../src/Primes.cpp)
+add_executable(primes_tests PrimesTest.cpp ../src/Primes.cpp)
 add_executable(arguments_parser_test ArgumentsParserTest.cpp ../src/ArgumentsParser.h)
 add_executable(special_primes_test SpecialPrimesTest.cpp ../src/SpecialPrimes.cpp ../src/Primes.cpp)
 
