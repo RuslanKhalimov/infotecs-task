@@ -23,8 +23,13 @@ int main(int argc, char *argv[]) {
     ApplicationConfig *config = new ApplicationConfig();
     try {
         parse_arguments(argc - 1, argv + 1, config);
-    } catch (std::runtime_error &e) {
-        std::cerr << e.what() << std::endl;
+    } catch (std::invalid_argument &e) {
+        std::cerr << "Error while parsing arguments. Get invalid argument : " << e.what() << std::endl;
+        show_usage();
+        return 1;
+    }
+    catch (std::exception &e) {
+        std::cerr << "Error while parsing arguments : " << e.what() << std::endl;
         show_usage();
         return 1;
     }

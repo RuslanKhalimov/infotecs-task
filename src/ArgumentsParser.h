@@ -30,41 +30,45 @@ const std::unordered_map<std::string, PrimesTypes> available_primes_types =
          {"super-prime",          SuperPrime},
          {"sophie-germain-prime", SophieGermainPrime}};
 
+void check_argc(int argc, int min, const std::string& flag) {
+    if (argc < min) {
+        throw std::runtime_error("Not enough arguments for " + flag + " parameter");
+    }
+}
+
 int find_next_parameter(int argc, char *argv[], ApplicationConfig *config) {
     if (strcmp(argv[0], "--help") == 0 || strcmp(argv[0], "-h") == 0) {
         config->is_help = true;
         return 1;
     }
     if (strcmp(argv[0], "--mode") == 0 || strcmp(argv[0], "-m") == 0) {
-        if (argc < 3) {
-            throw std::runtime_error("Not enough arguments for : " + std::string(argv[0]) + "parameter");
-        }
+        check_argc(argc, 3, argv[0]);
         config->mode = argv[1];
         if (config->mode == "max" || config->mode == "count") {
-            config->parameter = std::stoul(argv[2]);
+            try {
+                config->parameter = std::stoul(argv[2]);
+            } catch (const std::invalid_argument &e) {
+                throw std::invalid_argument(argv[1]);
+            }
         } else {
-            throw std::runtime_error("Invalid argument : " + std::string(argv[1]));
+            throw std::invalid_argument(argv[1]);
         }
         return 3;
     }
     if (strcmp(argv[0], "--file") == 0 || strcmp(argv[0], "-f") == 0) {
-        if (argc < 2) {
-            throw std::runtime_error("Not enough arguments for : " + std::string(argv[0]) + "parameter");
-        }
+        check_argc(argc, 2, argv[0]);
         config->file_name = argv[1];
         return 2;
     }
     if (strcmp(argv[0], "--type") == 0 || strcmp(argv[0], "-t") == 0) {
-        if (argc < 2) {
-            throw std::runtime_error("Not enough arguments for : " + std::string(argv[0]) + "parameter");
-        }
+        check_argc(argc, 2, argv[0]);
         if (available_primes_types.count(argv[1]) == 0) {
-            throw std::runtime_error("Invalid argument : " + std::string(argv[1]));
+            throw std::invalid_argument(argv[1]);
         }
         config->primes_type = available_primes_types.at(argv[1]);
         return 2;
     }
-    throw std::runtime_error("Invalid argument : " + std::string(argv[0]));
+    throw std::invalid_argument(argv[0]);
 }
 
 void parse_arguments(int argc, char *argv[], ApplicationConfig *config) {
