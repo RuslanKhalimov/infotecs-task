@@ -2,6 +2,7 @@
 
 #include "ArgumentsParser.h"
 #include "Primes.h"
+#include "SpecialPrimes.h"
 
 void print(const std::vector<uint32_t> &result, std::string delimiter) {
     for (const uint32_t &x : result) {
@@ -15,7 +16,7 @@ void show_usage() {
                  << "    -m | --mode       max <max_number> | count <numbers_count>" << std::endl
                  << "    -f | --file       <output_file_name>" << std::endl
                  << "    -t | --type       <prime_numbers_type>" << std::endl
-                 << "Available prime_numbers_types : prime" << std::endl;
+              << "Available prime_numbers_types : prime, super-prime, sophie-germain-prime" << std::endl;
 }
 
 int main(int argc, char *argv[]) {
@@ -35,15 +36,31 @@ int main(int argc, char *argv[]) {
 
     std::vector<uint32_t> result;
     if (config->mode == "max") {
-        Primes container(config->parameter);
-        for (uint32_t &x : container) {
+        Primes *container = nullptr;
+        if (config->primes_type == Prime) {
+            container = new Primes(config->parameter);
+        } else if (config->primes_type == SuperPrime) {
+            container = new SuperPrimes(config->parameter);
+        } else if (config->primes_type == SophieGermainPrime) {
+            container = new SophieGermainPrimes(config->parameter);
+        }
+        for (uint32_t &x : *container) {
             result.push_back(x);
         }
+        delete container;
     } else {
-        Primes container;
-        for (int i = 0; i < config->parameter; ++i) {
-            result.push_back(container[i]);
+        Primes *container = nullptr;
+        if (config->primes_type == Prime) {
+            container = new Primes();
+        } else if (config->primes_type == SuperPrime) {
+            container = new SuperPrimes();
+        } else if (config->primes_type == SophieGermainPrime) {
+            container = new SophieGermainPrimes();
         }
+        for (int i = 0; i < config->parameter; ++i) {
+            result.push_back((*container)[i]);
+        }
+        delete container;
     }
 
     if (strcmp(config->file_name, "") == 0) {

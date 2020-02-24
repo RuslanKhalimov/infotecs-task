@@ -6,20 +6,23 @@
 
 class Primes {
 private:
-    bool is_limited;
-    std::vector<uint32_t> prime_numbers;
-
     void extend_prime_numbers();
 
 protected:
-    const uint32_t extension_step = 1000000;
+    bool is_limited;
+    std::vector<uint32_t> prime_numbers;
+    static const uint32_t extension_step = 1000000;
 
-    void extend_prime_numbers(uint32_t max);
+    virtual void extend_prime_numbers(uint32_t max);
 
 public:
     Primes(uint32_t max);
 
     Primes();
+
+    Primes(const Primes &container) = default;
+
+    Primes &operator=(const Primes &container) = default;
 
     class Iterator;
 

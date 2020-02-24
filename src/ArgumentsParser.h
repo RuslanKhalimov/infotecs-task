@@ -1,14 +1,20 @@
 #pragma once
 
 #include <cstring>
-#include <unordered_set>
+#include <unordered_map>
+
+enum PrimesTypes {
+    Prime,
+    SuperPrime,
+    SophieGermainPrime
+};
 
 struct ApplicationConfig {
     bool is_help = false;
     std::string mode = "max";
     uint32_t parameter = 100;
     const char *file_name = "";
-    std::string primes_type = "prime";
+    PrimesTypes primes_type = Prime;
 
     bool operator==(const ApplicationConfig &other) const {
         return is_help == other.is_help
@@ -19,7 +25,10 @@ struct ApplicationConfig {
     }
 };
 
-const std::unordered_set<std::string> available_primes_types = {"primes"};
+const std::unordered_map<std::string, PrimesTypes> available_primes_types =
+        {{"prime",                Prime},
+         {"super-prime",          SuperPrime},
+         {"sophie-germain-prime", SophieGermainPrime}};
 
 int find_next_parameter(int argc, char *argv[], ApplicationConfig *config) {
     if (strcmp(argv[0], "--help") == 0 || strcmp(argv[0], "-h") == 0) {
@@ -52,7 +61,7 @@ int find_next_parameter(int argc, char *argv[], ApplicationConfig *config) {
         if (available_primes_types.count(argv[1]) == 0) {
             throw std::runtime_error("Invalid argument : " + std::string(argv[1]));
         }
-        config->primes_type = argv[1];
+        config->primes_type = available_primes_types.at(argv[1]);
         return 2;
     }
     throw std::runtime_error("Invalid argument : " + std::string(argv[0]));

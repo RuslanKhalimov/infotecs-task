@@ -1,3 +1,4 @@
 add_executable(main
         Primes.cpp
-        main.cpp ArgumentsParser.h)
+        main.cpp
+        SpecialPrimes.cpp)
