@@ -7,7 +7,7 @@
 
 void show_usage() {
     std::cout << "Usage:" << std::endl
-              << "    -h | --help\n"
+              << "    -h | --help" << std::endl
               << "    -m | --mode       max <max_number> | count <numbers_count>" << std::endl
               << "    -f | --file       <output_file_name>" << std::endl
               << "    -t | --type       <prime_numbers_type>" << std::endl
@@ -16,6 +16,7 @@ void show_usage() {
 
 int main(int argc, char *argv[]) {
     ApplicationConfig *config = new ApplicationConfig();
+    Primes *container = nullptr;
     try {
         parse_arguments(argc - 1, argv + 1, config);
     } catch (std::invalid_argument &e) {
@@ -36,7 +37,6 @@ int main(int argc, char *argv[]) {
 
     std::vector<uint32_t> result;
     if (config->mode == "max") {
-        Primes *container = nullptr;
         if (config->primes_type == Prime) {
             container = new Primes(config->parameter);
         } else if (config->primes_type == SuperPrime) {
@@ -49,7 +49,6 @@ int main(int argc, char *argv[]) {
         }
         delete container;
     } else {
-        Primes *container = nullptr;
         if (config->primes_type == Prime) {
             container = new Primes();
         } else if (config->primes_type == SuperPrime) {
@@ -60,7 +59,6 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < config->parameter; ++i) {
             result.push_back((*container)[i]);
         }
-        delete container;
     }
 
     if (strcmp(config->file_name, "") == 0) {
@@ -77,6 +75,7 @@ int main(int argc, char *argv[]) {
         fout.close();
     }
 
+    delete container;
     delete config;
 
     return 0;
