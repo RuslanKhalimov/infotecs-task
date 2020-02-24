@@ -1,14 +1,9 @@
 #include <iostream>
+#include <fstream>
 
 #include "ArgumentsParser.h"
 #include "Primes.h"
 #include "SpecialPrimes.h"
-
-void print(const std::vector<uint32_t> &result, std::string delimiter) {
-    for (const uint32_t &x : result) {
-        std::cout << x << delimiter;
-    }
-}
 
 void show_usage() {
     std::cout << "Usage:" << std::endl
@@ -69,10 +64,17 @@ int main(int argc, char *argv[]) {
     }
 
     if (strcmp(config->file_name, "") == 0) {
-        print(result, " ");
+        for (const uint32_t &x : result) {
+            std::cout << x << " ";
+        }
+        std::cout << std::endl;
     } else {
-        freopen(config->file_name, "w", stdout);
-        print(result, "\n");
+        std::ofstream fout;
+        fout.open(config->file_name);
+        for (const uint32_t &x : result) {
+            fout << x << "\n";
+        }
+        fout.close();
     }
 
     delete config;
